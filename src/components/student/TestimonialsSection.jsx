@@ -17,16 +17,16 @@ const TestimonialsSection = () => {
                   <h1 className='text-lg font-medium text-gray-800'>{testimonial.name}</h1>
                   <p className='text-gray-800/80'>{testimonial.role}</p>
                 </div>
-                <div className='p-5 pb-7'>
+              </div>
+            <div className='p-5 pb-7'>
                   <div className='flex gap-0.5'>
-                    {[...Array(5).map((_, i)=>(
+                    {[...Array(5)].map((_, i)=>(
                       <img className='h-5' key={i} src={i < Math.floor(testimonial.rating) ? assets.star : assets.star_blank} alt="star" />
-                    ))]}
+                    ))}
                   </div>
                   <p className='text-gray-500 mt-5'>{testimonial.feedback}</p>
                 </div>
-              </div>
-
+                <a href="#" className='text-blue-500 underline px-5'>Read more</a>
             </div>
           ))}
         </div>
