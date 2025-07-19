@@ -3,6 +3,7 @@ import { assets } from "../../assets/assets";
 import { Link } from "react-router-dom";
 import { useClerk, UserButton, useUser } from "@clerk/clerk-react";
 import { AppContext } from "../../context/AppContext";
+import Sidebar from "../educator/Sidebar";
 
 const Navbar = () => {
   const { navigate, isEducator } = useContext(AppContext);
@@ -23,7 +24,7 @@ const Navbar = () => {
         onClick={() => navigate("/")}
         src={assets.logo}
         alt="Logo"
-        className="w-28 lg:w-32 cursor-pointer"
+        className="w-28 lg:w-32 cursor-pointer transition-transform duration-300 ease-in-out hover:scale-110 hover:rotate-3 hover:drop-shadow-lg"
       />
 
       {/* Desktop Menu */}
@@ -31,13 +32,14 @@ const Navbar = () => {
         {user && (
           <>
             <button
+            className="cursor-pointer hover:font-light"
               onClick={() => {
                 navigate("/educator");
               }}
             >
               {isEducator ? "Educator Dashboard" : "Become Educator"}
             </button>
-            <Link to="/my-enrollments">My Enrollments</Link>
+            <Link to="/my-enrollments" className="hover:font-light">My Enrollments</Link>
           </>
         )}
         {user ? (
@@ -45,7 +47,7 @@ const Navbar = () => {
         ) : (
           <button
             onClick={() => openSignIn()}
-            className="bg-blue-600 text-white px-5 py-2 rounded-full"
+            className="bg-blue-600 text-white px-5 py-2 rounded-full hover:font-light"
           >
             Create Account
           </button>
@@ -80,14 +82,14 @@ const Navbar = () => {
                   navigate("/educator");
                   setMenuOpen(false);
                 }}
-                className="text-gray-600"
+                className="cursor-pointer text-gray-600 "
               >
                 {isEducator ? "Educator Dashboard" : "Become Educator"}
               </button>
               <Link
                 to="/my-enrollments"
                 onClick={() => setMenuOpen(false)}
-                className="text-gray-600"
+                className="text-gray-600 hover:font-light"
               >
                 My Enrollments
               </Link>
