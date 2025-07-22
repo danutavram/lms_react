@@ -4,6 +4,7 @@ import dotenv from 'dotenv/config';
 import connectDB from './configs/mongodb.js';
 import { clerkWebhooks } from './controllers/webhooks.js';
 import bodyParser from 'body-parser';
+import { clerkMiddleware } from '@clerk/express';
 
 const app = express();
 
@@ -13,6 +14,7 @@ await connectDB();
 // Middleware
 app.use(cors());
 app.use(express.json()); // pentru rutele normale
+app.use(clerkMiddleware())
 
 // **Raw body pentru Clerk Webhook**
 app.post(
