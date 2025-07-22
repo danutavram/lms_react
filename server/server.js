@@ -5,11 +5,13 @@ import connectDB from './configs/mongodb.js';
 import { clerkWebhooks } from './controllers/webhooks.js';
 import bodyParser from 'body-parser';
 import { clerkMiddleware } from '@clerk/express';
+import connectCloudinary from './configs/cloudinary.js';
 
 const app = express();
 
 // Connect to MongoDB
 await connectDB();
+await connectCloudinary();
 
 // Middleware
 app.use(cors());
