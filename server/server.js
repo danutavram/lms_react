@@ -6,6 +6,7 @@ import { clerkWebhooks } from './controllers/webhooks.js';
 import bodyParser from 'body-parser';
 import { clerkMiddleware } from '@clerk/express';
 import connectCloudinary from './configs/cloudinary.js';
+import educatorRouter from './routes/educatorRoutes.js';
 
 const app = express();
 
@@ -24,6 +25,7 @@ app.post(
   bodyParser.raw({ type: 'application/json' }),
   clerkWebhooks
 );
+app.use('/api/educator', express.json(), educatorRouter);
 
 app.get('/', (req, res) => res.send('✅ API is working'));
 
