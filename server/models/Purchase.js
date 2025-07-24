@@ -20,7 +20,7 @@ const PurchaseSchema = new mongoose.Schema({
     
     // Get Educator Dashboard Data ( Total Earning, Enrolled Students, No. of Courses )
 
-    const educatorDashboardData = async (req, res) => {
+    const educatorDashboardData = async () => {
         try {
             const educator = req.auth.userId;
             const courses = await Course.find({educator});
