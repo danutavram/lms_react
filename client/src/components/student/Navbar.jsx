@@ -8,13 +8,12 @@ import axios from "axios";
 import { toast } from "react-toastify";
 
 const Navbar = () => {
-  const { navigate, isEducator, backendUrl, setIsEducator, getToken } = useContext(AppContext);
   const isCourseListPage = location.pathname.includes("/course-list");
+  const { navigate, isEducator, backendUrl, setIsEducator, getToken } = useContext(AppContext);
   const { openSignIn } = useClerk();
   const { user } = useUser();
 
-  const [menuOpen, setMenuOpen] = useState(false);
-
+  
   const becomeEducator = async ()=>{
     try {
       if(isEducator){
@@ -24,17 +23,19 @@ const Navbar = () => {
       const token = await getToken();
       const {data} = await axios.get(backendUrl + '/api/educator/update-role', {
         headers: { Authorization: `Bearer ${token}` }})
-      
-      if(data.success){
-        setIsEducator(true);
-        toast.success(data.message)
-      } else {
+        
+        if(data.success){
+          setIsEducator(true);
+          toast.success(data.message)
+        } else {
         toast.error(data.message)
       }
     } catch (error) {
       toast.error(error.message)
     }
   }
+  
+  const [menuOpen, setMenuOpen] = useState(false);
 
   return (
     <div
