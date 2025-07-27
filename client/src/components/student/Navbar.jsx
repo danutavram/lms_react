@@ -5,6 +5,7 @@ import { useClerk, UserButton, useUser } from "@clerk/clerk-react";
 import { AppContext } from "../../context/AppContext";
 import Sidebar from "../educator/Sidebar";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 const Navbar = () => {
   const { navigate, isEducator, backendUrl, setIsEducator, getToken } = useContext(AppContext);
