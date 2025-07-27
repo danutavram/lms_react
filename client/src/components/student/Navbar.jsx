@@ -4,14 +4,36 @@ import { Link } from "react-router-dom";
 import { useClerk, UserButton, useUser } from "@clerk/clerk-react";
 import { AppContext } from "../../context/AppContext";
 import Sidebar from "../educator/Sidebar";
+import axios from "axios";
 
 const Navbar = () => {
-  const { navigate, isEducator } = useContext(AppContext);
+  const { navigate, isEducator, backendUrl, setIsEducator, getToken } = useContext(AppContext);
   const isCourseListPage = location.pathname.includes("/course-list");
   const { openSignIn } = useClerk();
   const { user } = useUser();
 
   const [menuOpen, setMenuOpen] = useState(false);
+
+  const becomeEducator = async ()=>{
+    try {
+      if(isEducator){
+        navigate('/educator')
+        return;
+      }
+      const token = await getToken();
+      const {data} = await axios.get(backendUrl + '/api/educator/update-role', {
+        headers: { Authorization: `Bearer ${token}` }})
+      
+      if(data.success){
+        setIsEducator(true);
+        toast.success(data.message)
+      } else {
+        toast.error(data.message)
+      }
+    } catch (error) {
+      toast.error(error.message)
+    }
+  }
 
   return (
     <div
@@ -33,9 +55,7 @@ const Navbar = () => {
           <>
             <button
             className="cursor-pointer hover:font-light"
-              onClick={() => {
-                navigate("/educator");
-              }}
+              onClick={becomeEducator}
             >
               {isEducator ? "Educator Dashboard" : "Become Educator"}
             </button>
@@ -78,10 +98,7 @@ const Navbar = () => {
           {user && (
             <>
               <button
-                onClick={() => {
-                  navigate("/educator");
-                  setMenuOpen(false);
-                }}
+                onClick={becomeEducator}
                 className="cursor-pointer text-gray-600 "
               >
                 {isEducator ? "Educator Dashboard" : "Become Educator"}
