@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import { AppContext } from '../../context/AppContext'
 import Loading from '../../components/student/Loading'
 import { assets } from '../../assets/assets'
@@ -26,7 +26,7 @@ const CourseDetails = () => {
       const {data} = await axios.get(backendUrl + '/api/course/' + id)
 
       if(data.success) {
-        setCourseData(data.coursedata)
+        setCourseData(data.courseData)
       } else {
         toast.error(data.message)
       }
@@ -48,8 +48,8 @@ const CourseDetails = () => {
       const {data} = await axios.post(backendUrl + '/api/user/purchase', {
         courseId: courseData._id}, {headers: { Authorization: `Bearer ${token}` }})
       if(data.success) {
-        const {session_url} = data
-        window.location.replace(session_url) 
+        const {session_url} = data;
+        window.location.replace(session_url); 
       }else{
         toast.error(data.message)
       }
