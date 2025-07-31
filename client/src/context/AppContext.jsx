@@ -22,6 +22,7 @@ export const AppContextProvider = (props)=>{
     const [isEducator, setIsEducator] = useState(false)
     const [enrolledCourses, setEnrolledCourses] = useState([])
     const [userData, setUserData] = useState(null)
+    
 
     // Fetch All Courses
     const fetchAllCourses = async()=>{
@@ -39,6 +40,9 @@ export const AppContextProvider = (props)=>{
     }
 // Fetch UserData
     const fetchUserData = async()=>{
+        const token = await getToken();
+        console.log(token); // Dacă e null => nu ești logat
+
 
         if(user.publicMetadata.role === 'educator'){
             setIsEducator(true)
