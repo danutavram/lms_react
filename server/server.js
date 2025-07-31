@@ -12,27 +12,30 @@ import userRouter from './routes/userRoutes.js';
 
 const app = express();
 
-// Connect to MongoDB
+// Connect to MongoDB and Cloudinary
 await connectDB();
 await connectCloudinary();
 
 // Middleware
 app.use(cors());
-app.use(express.json()); // pentru rutele normale
-app.use(clerkMiddleware())
 
-// Routes
-app.post(
-  '/clerk',
-  bodyParser.raw({ type: 'application/json' }),
-  clerkWebhooks
-);
-app.use('/api/educator', express.json(), educatorRouter);
+// Webhook routes
+app.post('/clerk', express.json(), clerkWebhooks); // assuming Clerk webhook sends JSON
+app.post('/stripe', bodyParser.raw({ type: 'application/json' }), stripeWebhooks);
+
+// Normal JSON parsing middleware for other routes
+app.use(express.json());
+
+// Clerk middleware (auth etc)
+app.use(clerkMiddleware());
+
+// API routes
+app.use('/api/educator', educatorRouter);
+app.use('/api/course', courseRouter);
+app.use('/api/user', userRouter);
+
+// Test route
 app.get('/', (req, res) => res.send('✅ API is working'));
-app.use('/api/educator', express.json(), educatorRouter)
-app.use('/api/course', express.json(), courseRouter)
-app.use('/api/user', express.json(), userRouter)
-app.post('/stripe', express.raw({ type: 'application/json'}), stripeWebhooks);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`✅ Server running on port ${PORT}`));
