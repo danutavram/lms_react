@@ -29,10 +29,9 @@ const CourseDetails = () => {
 		getToken,
 	} = useContext(AppContext);
 
-	const fetchCourseData = async () => {
+	const fetcheCourseData = async () => {
 		// const findCourse = allCourses.find((course) => course._id === id);
 		// setCourseData(findCourse);
-    
 
 		try {
 			const { data } = await axios.get(backendUrl + "/api/course/" + id);
@@ -74,7 +73,7 @@ const CourseDetails = () => {
 	};
 
 	useEffect(() => {
-		fetchCourseData();
+		fetcheCourseData();
 	}, []);
 
 	useEffect(() => {
@@ -106,7 +105,7 @@ const CourseDetails = () => {
 
 					{/* review and rating  */}
 					<div className="flex items-center space-x-2 pt-3 pb-1 text-sm">
-						<p>{calculateRating(courseData) || 0}</p>
+						<p>{calculateRating(courseData)}</p>
 						<div className="flex">
 							{[...Array(5)].map((_, i) => (
 								<img
@@ -122,19 +121,19 @@ const CourseDetails = () => {
 							))}
 						</div>
 						<p className="text-blue-600">
-							({courseData.courseRatings?.length || 0}{" "}
-							{courseData.courseRatings?.length > 1 ? "ratings" : "rating"})
+							({courseData.courseRatings.length}{" "}
+							{courseData.courseRatings.length > 1 ? "ratings" : "rating"})
 						</p>
 
 						<p>
-							{courseData.enrolledStudents?.length || 0}{" "}
-							{courseData.enrolledStudents?.length > 1 ? "students" : "student"}
+							{courseData.enrolledStudents.length}{" "}
+							{courseData.enrolledStudents.length > 1 ? "students" : "student"}
 						</p>
 					</div>
 					<p className="text-sm">
 						Course by{" "}
 						<span className="text-blue-600 underline">
-							{courseData.educator?.name}
+							{courseData.educator.name}
 						</span>
 					</p>
 

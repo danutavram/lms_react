@@ -12,24 +12,25 @@ import userRouter from './routes/userRoutes.js';
 
 const app = express();
 
-// Connect to MongoDB and Cloudinary
+// Connect to DB & Cloudinary
 await connectDB();
 await connectCloudinary();
 
-// Middleware
 app.use(cors());
 
-// Webhook routes
-app.post('/clerk', express.json(), clerkWebhooks); // assuming Clerk webhook sends JSON
-app.post('/stripe', bodyParser.raw({ type: 'application/json' }), stripeWebhooks);
+// 🟢 1. Webhook Stripe (raw body)
+app.post('/stripe', express.raw({ type: 'application/json' }), stripeWebhooks);
 
-// Normal JSON parsing middleware for other routes
+// 🟢 2. Webhook Clerk (raw body pentru semnătura Svix)
+app.post('/clerk', bodyParser.raw({ type: 'application/json' }), clerkWebhooks);
+
+// 🟢 3. Middleware pentru toate celelalte rute
 app.use(express.json());
 
-// Clerk middleware (auth etc)
+// 🟢 4. Clerk middleware (auth)
 app.use(clerkMiddleware());
 
-// API routes
+// 🟢 5. Restul API-ului
 app.use('/api/educator', educatorRouter);
 app.use('/api/course', courseRouter);
 app.use('/api/user', userRouter);
